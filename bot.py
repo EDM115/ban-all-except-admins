@@ -2,10 +2,10 @@
 
 import os
 import logging
-from pyrogram import Client, errors, filters
+from pyrogram import Client, enums, filters
 from pyrogram.types import BotCommand, Message
 from pyrogram.errors import FloodWait, RPCError
-import pyromod.listen
+# import pyromod.listen
 from config import *
 
 banbot = Client(
@@ -57,6 +57,23 @@ async def help_me(_, message: Message):
 @banbot.on_message(filters.command("ban"))
 async def help_me(_, message: Message):
     await message.reply_text(text="🚧")
+    if message.chat.type == enums.GROUP or message.chat.type == enums.SUPERGROUP:
+        starter = message.from_user.id
+        cid = message.chat.id
+        adminlist = []
+        async for admin in banbot.get_chat_members(chat_id=cid, filter=enums.ChatMembersFilter.ADMINISTRATORS):
+            adminlist.append(admin)
+        for admin2 in adminlist:
+            userinfo = adminlist[admin2]
+            if userinfo.id != starter:
+                adminlist.remove(userinfo) # or adminlist.pop(admin2)
+            else:
+                adminlist.append(starter)
+        if starter in adminlist:
+            admin3 = adminlist[0]
+            if admin3.privileges.can_restrict_members == True:
+                await message.reply("Yes")
+
 # check if admin performed it
 # check admin rights
 # confirm by buttons
