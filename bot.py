@@ -99,4 +99,4 @@ async def help_me(_, message: Message):
 
 LOGGER.info("Bot started")
 await setCommands()
-template.run()
+banbot.run()
