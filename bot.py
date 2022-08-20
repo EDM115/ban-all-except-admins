@@ -3,7 +3,7 @@
 import os
 import logging
 from pyrogram import Client, enums, filters
-from pyrogram.types import BotCommand, Message
+from pyrogram.types import BotCommand, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, Message
 from pyrogram.errors import FloodWait, RPCError
 # import pyromod.listen
 from config import *
@@ -54,6 +54,20 @@ async def send_logs(_, message: Message):
 async def help_me(_, message: Message):
     await message.reply_text(text="This is help text")
 
+class Buttons:
+    CONFIRMATION = InlineKeyboardMarkup([
+            [
+                InlineKeyboardButton("✅", callback_data="yessir"),
+                InlineKeyboardButton("❌", callback_data="nope")
+            ]
+        ])
+
+@banbot.on_callback_query()
+async def callbacks(banbot: Client, query: CallbackQuery):
+    cid = query.chat.id
+    if query.data == "nope":
+        await query.edit_message_text(text="yes")
+
 @banbot.on_message(filters.command("ban"))
 async def help_me(_, message: Message):
     await message.reply_text(text="🚧")
@@ -72,7 +86,7 @@ async def help_me(_, message: Message):
         if starter in adminlist:
             admin3 = adminlist[0]
             if admin3.privileges.can_restrict_members == True:
-                await message.reply("Yes")
+                await message.reply("Are you sure you wanna ban everyone excepting the admins ?", reply_markup=Buttons.CONFIRMATION)
 
 # check if admin performed it
 # check admin rights
