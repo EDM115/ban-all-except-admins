@@ -1,1 +1,1 @@
-template-name: bash start.sh
+banbot: bash start.sh
