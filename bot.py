@@ -163,9 +163,9 @@ async def justdoit(text, mode, chat, user, query):
         return await action.edit(f"Done ✅\nBanned {donecount} users, with {errorcount} errors. Check the file above to know which User ID's we failed to process")
     return await action.edit(f"Done ✅\nBanned {donecount} users")
 
-@banbot.on_message(filters.command("fusrodah") & filters.group)
+@banbot.on_message(filters.command("fusrodah")) # & filters.group
 async def being_devil(_, message: Message):
-    if message.chat.type == enums.GROUP or message.chat.type == enums.SUPERGROUP:
+    if message.chat.type == enums.ChatType.GROUP or message.chat.type == enums.ChatType.SUPERGROUP:
         starter = message.from_user.id
         cid = message.chat.id
         LOGGER.info(f"{starter} started a task in {cid}")
