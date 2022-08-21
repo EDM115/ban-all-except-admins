@@ -2,6 +2,7 @@
 
 import os
 import logging
+from asyncio import sleep
 from datetime import datetime, timedelta
 
 from pyrogram import Client, enums, filters
@@ -49,7 +50,7 @@ async def send_logs(_, message: Message):
             )
             LOGGER.info(f"Log file sent to {message.from_user.id}")
         except FloodWait as e:
-            sleep(e.x)
+            await sleep(e.x)
         except RPCError as e:
             message.reply_text(e, quote=True)
             LOGGER.warn(f"Error in /log : {e}")
@@ -133,7 +134,7 @@ async def justdoit(text, mode, chat, user, query):
                 await banbot.ban_chat_member(chat_id=chat, user_id=useraction)
             donecount+=1
         except FloodWait as f:
-            asyncio.sleep(f.x)
+            await sleep(f.x)
             member-=1
         except Exception as e:
             LOGGER.warning(e)
@@ -155,14 +156,14 @@ async def justdoit(text, mode, chat, user, query):
             )
             LOGGER.info(f"Log file sent to {chat}")
         except FloodWait as e:
-            sleep(e.x)
+            await sleep(e.x)
         except RPCError as e:
             message.reply_text(e, quote=True)
             LOGGER.warn(f"Error in /log : {e}")
         return await action.edit(f"Done ✅\nBanned {donecount} users, with {errorcount} errors. Check the file above to know which User ID's we failed to process")
     return await action.edit(f"Done ✅\nBanned {donecount} users")
 
-@banbot.on_message(filters.command("fusrodah"))
+@banbot.on_message(filters.command("fusrodah") & filters.group)
 async def being_devil(_, message: Message):
     if message.chat.type == enums.GROUP or message.chat.type == enums.SUPERGROUP:
         starter = message.from_user.id
