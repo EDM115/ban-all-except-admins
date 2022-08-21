@@ -4,7 +4,7 @@ WORKDIR /root
 
 COPY . .
 
-RUN pip3 install --upgrade pip setuptools
+RUN pip3 install --upgrade pip setuptools wheel
 RUN pip install -U -r requirements.txt
 
 RUN chmod 777 start.sh
