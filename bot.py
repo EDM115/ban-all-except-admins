@@ -21,7 +21,9 @@ banbot = Client(
 async def setCommands():
     banbot.set_bot_commands([
         BotCommand("start", "Useless"),
-        BotCommand("log", "Send you the logs, in case it's needed")])
+        BotCommand("help", "Useful"),
+        BotCommand("fusrodah", "Actually what you need"),
+        BotCommand("log", "For pro users only")])
 
 logging.basicConfig(
     level=logging.INFO,
