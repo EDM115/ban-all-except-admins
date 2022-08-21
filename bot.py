@@ -57,8 +57,11 @@ async def help_me(_, message: Message):
 class Buttons:
     CONFIRMATION = InlineKeyboardMarkup([
             [
-                InlineKeyboardButton("✅", callback_data="yessir"),
-                InlineKeyboardButton("❌", callback_data="nope")
+                InlineKeyboardButton("Kick 🚪", callback_data="kick"),
+                InlineKeyboardButton("Ban 🕳", callback_data="ban")
+            ],
+            [
+                InlineKeyboardButton("Cancel ❌", callback_data="nope")
             ]
         ])
 
@@ -68,15 +71,16 @@ async def callbacks(banbot: Client, query: CallbackQuery):
     if query.data == "nope":
         await query.edit_message_text(text="yes")
 
-@banbot.on_message(filters.command("ban"))
-async def help_me(_, message: Message):
-    await message.reply_text(text="🚧")
+@banbot.on_message(filters.command("fusrodah"))
+async def being_devil(_, message: Message):
     if message.chat.type == enums.GROUP or message.chat.type == enums.SUPERGROUP:
         starter = message.from_user.id
         cid = message.chat.id
+        LOGGER.info(f"{starter} started a task in {cid}")
         adminlist = []
         async for admin in banbot.get_chat_members(chat_id=cid, filter=enums.ChatMembersFilter.ADMINISTRATORS):
             adminlist.append(admin)
+        adminlist2 = adminlist.copy()
         for admin2 in adminlist:
             userinfo = adminlist[admin2]
             if userinfo.id != starter:
@@ -86,7 +90,22 @@ async def help_me(_, message: Message):
         if starter in adminlist:
             admin3 = adminlist[0]
             if admin3.privileges.can_restrict_members == True:
-                await message.reply("Are you sure you wanna ban everyone excepting the admins ?", reply_markup=Buttons.CONFIRMATION)
+                botid = Config.BOT_TOKEN.split(":")[0]
+                selfuser = await client.get_chat_member(chat_id=cid, user_id=botid)
+                if selfuser.privileges.can_restrict_members == True:
+                    await message.reply("Confirm your action bro\nChoose either :\n• Kick all members except the admins\n• **Ban** all members except the admins\n• Cancel your task", reply_markup=Buttons.CONFIRMATION)
+                else:
+                    LOGGER.warning("Bot cannot ban members")
+                    return message.reply("You need to add me as admin with the following scope : `can_restrict_members`\n__(Turn on \"Ban members\")__")
+            else:
+                LOGGER.warning("User cannot ban members")
+                return message.reply("You are admin, but… You're missing the following scope : `can_restrict_members`\nAsk to a higher admin to give you the ability to ban members")
+        else:
+            LOGGER.warning("Not admin")
+            return message.reply("You aren't admin 😐 Don't mess around with me")
+    else:
+        LOGGER.warning("Not in group")
+        return message.reply("Bruh, do it in a group 😐\nI might be able to do it in channels soon, however I don't see any interest in it. PM **@EDM115** for requesting that feature")
 
 # check if admin performed it
 # check admin rights
