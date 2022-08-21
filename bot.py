@@ -56,7 +56,25 @@ async def send_logs(_, message: Message):
 
 @banbot.on_message(filters.command("help"))
 async def help_me(_, message: Message):
-    await message.reply_text(text="This is help text")
+    await message.reply_text(text="""
+Here is the help :
+
+--Preconditions :--
+    • Be an admin
+    • Have "Ban members" rights
+    • Same conditions for me, the bot
+
+--Usage :--
+    • Send `/fusrodah`
+    • Choose if you want to **Ban** or **Kick all** the members excepting the admins
+    • Let the bot do its job
+    • If some errors happened, check the errors text file to manually ban/kick those users ID's
+
+--Help :--
+    You can contact the support here : **@EDM115_chat**
+    Subscribe for more : **@EDM115bots**
+    Source code : https://github.com/EDM115/ban-all-except-admins
+    """)
 
 class Buttons:
     CONFIRMATION = InlineKeyboardMarkup([
