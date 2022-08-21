@@ -1,15 +1,15 @@
 {
-    "name": "template-bot",
-    "description": "Edit this",
+    "name": "Ban/Kick all users except admins",
+    "description": "The title is explicit",
     "keywords": [
-        "heroku",
-        "pyrogram",
-        "python",
-        "template",
+        "telegram",
+        "ban",
+        "kick",
+        "managment",
         "bot"
     ],
     "website": "https://t.me/EDM115bots",
-    "repository": "https://github.com/EDM115/pyrogram-heroku-temmplate",
+    "repository": "https://github.com/EDM115/ban-all-except-admins",
     "success_url": "https://t.me/EDM115bots",
     "env": {
         "API_ID": {
