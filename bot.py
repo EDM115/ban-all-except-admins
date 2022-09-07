@@ -148,18 +148,18 @@ async def justdoit(text, mode, chat, user, query):
             errorfile.write(item + "\n")
         errorfile.close()
         with open(f"errors_{chat}.txt", "rb") as doc_f:
-        try:
-            await banbot.send_document(
-                chat_id=chat,
-                document=doc_f,
-                file_name=doc_f.name
-            )
-            LOGGER.info(f"Log file sent to {chat}")
-        except FloodWait as e:
-            await sleep(e.x)
-        except RPCError as e:
-            message.reply_text(e, quote=True)
-            LOGGER.warn(f"Error in /log : {e}")
+            try:
+                await banbot.send_document(
+                    chat_id=chat,
+                    document=doc_f,
+                    file_name=doc_f.name
+                )
+                LOGGER.info(f"Log file sent to {chat}")
+            except FloodWait as e:
+                await sleep(e.x)
+            except RPCError as e:
+                message.reply_text(e, quote=True)
+                LOGGER.warn(f"Error in /log : {e}")
         return await action.edit(f"Done ✅\nBanned {donecount} users, with {errorcount} errors. Check the file above to know which User ID's we failed to process")
     return await action.edit(f"Done ✅\nBanned {donecount} users")
 
