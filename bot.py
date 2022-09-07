@@ -19,12 +19,14 @@ banbot = Client(
         sleep_threshold = 10
     )
 
+"""
 async def setCommands():
     banbot.set_bot_commands([
         BotCommand("start", "Useless"),
         BotCommand("help", "Useful"),
         BotCommand("fusrodah", "Actually what you need"),
         BotCommand("log", "For pro users only")])
+"""
 
 logging.basicConfig(
     level=logging.INFO,
@@ -210,5 +212,4 @@ async def being_devil(_, message: Message):
 # send message with stats
 
 LOGGER.info("Bot started")
-await setCommands()
 banbot.run()
